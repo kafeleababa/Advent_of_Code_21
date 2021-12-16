@@ -1108,23 +1108,81 @@ let testReport = [
  CSR = Iterate through the array and keep the elements that contain the least common number at pos[i], If there is an even number of 1s and 0s, keep the 0
 */
 
-const OGR = (testReport) => {
-  let arr = [];
+const OGR = (report, index) => {
+  let Ones = []
+  let Zeros = []
+  // console.log({ index })
+  if (index === report[0].length) {
+    return report[0]
+  }
+  report.forEach(element => {
 
-  for (let i = 0; i < testReport[0].length; i++) {
-    let nestArr = [];
+    if (element[index] === "1") {
+      Ones.push(element)
+    } else {
+      Zeros.push(element)
+    }
 
-    testReport.forEach((element) => {
-      console.log(element[i]);
-      if (Number(element[i] === "1")) {
-        nestArr.push(Number(element));
-      }
-    });
-    arr.push(nestArr);
-    break;
+  })
+  // console.log({ Ones })
+  // console.log({ Zeros })
+
+
+
+  if (Ones.length >= Zeros.length) {
+    // console.log("Choosing X")
+    return OGR(Ones, ++index)
+  } else {
+    // console.log("Choosing Y")
+    return OGR(Zeros, ++index)
   }
 
-  console.log(arr);
 };
 
-console.log(OGR(testReport));
+let OGRNumber = OGR(report, 0)
+
+Number(OGRNumber)
+
+let OGRConvert = parseInt(OGRNumber, 2);
+
+// OGR Decimal = 2815
+
+const CSR = (report, index = 0) => {
+  let Ones = []
+  let Zeros = []
+  if (index === report[0].length) {
+    return report[0]
+  }
+  report.forEach(element => {
+    if (element[index] === "0") {
+      Zeros.push(element)
+    } else {
+      Ones.push(element)
+    }
+  })
+  if (Zeros.length === 1 && Ones.length === 0) {
+    return Zeros
+  }
+  if (Zeros.length === 0 && Ones.length === 1) {
+    return Ones
+  }
+  if (Zeros.length <= Ones.length) {
+    return CSR(Zeros, ++index)
+  } else {
+    return CSR(Ones, ++index)
+  }
+
+};
+
+let CSRNumber = CSR(report, 0)
+Number(CSRNumber)
+let CSRConvert = parseInt(CSRNumber, 2);
+
+
+// CSR Decimal = 1059
+
+let lifeSupportRating = OGRConvert * CSRConvert
+
+console.log({ lifeSupportRating })
+
+// Life Support Rating = 2,981,085
